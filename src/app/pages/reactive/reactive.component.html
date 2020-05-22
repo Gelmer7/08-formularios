@@ -1,0 +1,146 @@
+<h4>Formularios <small> tipo </small></h4>
+<hr>
+<form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
+
+  <div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Nombre"
+               formControlName="nombre"
+               [class.is-invalid] = "nombreInvalido">
+        <small *ngIf="nombreInvalido" class="form-text text-danger"> 
+          ingrese email valido
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellido</label>
+      <div class="col">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Apellido"
+               [class.is-invalid] = "apellidoInvalido"
+               formControlName="apellido">
+        <small *ngIf="apellidoInvalido" class="form-text text-danger"> 
+          ingrese apellido valido
+        </small>               
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col">
+
+      <input class="form-control"
+             type="email"
+             placeholder="Correo electrónico"
+             [class.is-invalid] = "correoInvalido"
+             formControlName="correo">
+      <small *ngIf="correoInvalido" class="form-text text-danger"> 
+        ingrese email valido
+      </small> 
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-2 col-form-label">Pasatiempos</label>
+    <div class="col">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th>ID</th>
+              <th>pasatiempo</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="pasatiempos" >
+            <tr *ngFor="let item of pasatiempos.controls; let i=index">
+              <td>{{i+1}}</td>
+              <td> <!-- [class.is-invalid] = "itemInvalido" -->
+                <input  class="form-control" 
+                        type="text" 
+                        placeholder="novo item.."
+                        [class.is-invalid] = "itemInvalido(i)"
+                        [formControlName]="i">
+                <small *ngIf="itemInvalido(i)" class="form-text text-danger"> 
+                  Item errado
+                </small> 
+              </td>
+              <td>
+                <div class="text-center">
+                  <button class="btn btn-danger"
+                          type="button"
+                          (click)=removePasatiempo(i) >
+                    Borrar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-right">
+          <button class="btn btn-primary mt-3 mb-3" 
+                  type="button"
+                  (click)="agregaPasatiempos()">
+            + Agregar
+          </button>
+        </div>
+    </div>
+  </div>
+
+  <div class="form-group row" formGroupName="direccion">
+    <label class="col-2 col-form-label">Direccion</label>
+    <div class="col form-row">
+      <div class="col">
+        <input class="form-control"
+        type="text"
+        placeholder="Distrito"
+        [class.is-invalid] = "distritoInvalido"
+        formControlName="distrito">
+      <small *ngIf="distritoInvalido" class="form-text text-danger"> 
+        ingrese distrito valido
+      </small> 
+      </div>
+      <div class="col">
+        <input class="form-control"
+        type="text"
+        placeholder="Ciudad"
+        [class.is-invalid] = "ciudadInvalido"
+        formControlName="ciudad">
+      <small *ngIf="ciudadInvalido" class="form-text text-danger"> 
+        ingrese ciudad valida
+      </small> 
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md">
+      <button type="submit" class="btn btn-outline-primary btn-block">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<pre>
+  Estado del formulario: {{ forma.valid}}
+  status: {{forma.status}}
+</pre>
+<pre>
+  {{forma.value | json}}
+
+</pre>
