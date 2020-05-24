@@ -12,6 +12,16 @@ export class Reactive2Component implements OnInit {
     this.creaFormulario ()
   }
   
+  get direcciones(){
+    return this.forma.get("direcciones") as FormArray
+  }
+
+  callesInvalido(i:any){
+    return this.direcciones.controls[i]['controls'].calle.invalid && this.direcciones.controls[i]['controls'].calle.touched
+  }
+  distritosInvalido(i:number){
+    return this.direcciones.controls[i]['controls'].distrito.invalid && this.direcciones.controls[i]['controls'].distrito.touched
+  }
   get telefonos(){
     return this.forma.get("telefonos") as FormArray
   }
@@ -25,8 +35,16 @@ export class Reactive2Component implements OnInit {
     return this.forma.get("telefono").invalid &&  this.forma.get("telefono").touched
   }
   telefonosInvalido(i:number){
+    console.log("telefono: ",i)
     return this.telefonos.controls[i].invalid &&  this.telefonos.controls[i].touched
   }
+  get calleInvalido(){
+    return this.forma.get("direccion.calle").invalid &&  this.forma.get("direccion.calle").touched
+  }
+  get distritoInvalido(){
+    return this.forma.get("direccion.distrito").invalid &&  this.forma.get("direccion.distrito").touched
+  }
+
 
   ngOnInit(): void {
   }
@@ -35,19 +53,32 @@ export class Reactive2Component implements OnInit {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellido : ['', [Validators.required, Validators.minLength(3)]],
       telefono: ['', [Validators.required, Validators.minLength(3)]],
-      telefonos: this.fb.array([])
+      telefonos: this.fb.array([]),
+      direccion: this.fb.group({
+        calle: ['', [Validators.required, Validators.minLength(3)]],
+        distrito: ['', [Validators.required, Validators.minLength(3)]],
+      }),
+      direcciones: this.fb.array([])
     })
   }
   agregaTelefono(){
     this.telefonos.push(this.fb.control([''],[Validators.required, Validators.minLength(3)]))
   }
-  quitarDir(i:number){
+  quitarTel(i:number){
     this.telefonos.removeAt(i)
+  }
+  agregaDireccion(){
+    this.direcciones.push(this.fb.group({
+      calle: ['', [Validators.required, Validators.minLength(3)]],
+      distrito: ['', [Validators.required, Validators.minLength(3)]]
+    }))
+  }
+  quitarDir(i:number){
+    this.direcciones.removeAt(i)
   }
   guardar(){
     console.log(this.forma);
     if (this.forma.invalid) {
-      console.log(this.forma.controls);
       Object.values(this.forma.controls).forEach(el => {
         if(el instanceof FormGroup){ 
           Object.values(el.controls).forEach(elem => {
@@ -56,10 +87,20 @@ export class Reactive2Component implements OnInit {
             }
           })
         }
-        if(el instanceof FormArray){
+        if(el instanceof FormArray){      //array de objetos, validacion
           Object.values(el.controls).forEach(elem => {
             if (elem.invalid) {
-              elem.markAsTouched()
+              if(elem instanceof FormGroup){ 
+                Object.values(elem.controls).forEach(e => {
+
+                  if (e.invalid) {
+                    e.markAsTouched()
+                  }
+                })
+              }else{
+                elem.markAsTouched()
+              }
+
             }
           })
         }

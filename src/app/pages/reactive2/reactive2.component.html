@@ -1,6 +1,6 @@
 <h1>Formulario <small>Reactivo 2</small></h1>
 
-<form  class="mt-5" (ngSubmit)="guardar()" [formGroup]="forma">
+<form  class="mt-1" (ngSubmit)="guardar()" [formGroup]="forma">
     <div class="form-group row">
         <label class="col-2"> Nombre</label>
         <div class="col">
@@ -9,6 +9,9 @@
                     placeholder="Nombre"
                     formControlName="nombre"
                     [class.is-invalid]="nombreInvalido">
+            <small *ngIf="nombreInvalido" class="form-text text-danger"> 
+                Nombre errado
+            </small> 
         </div>
     </div>
     
@@ -22,9 +25,10 @@
                     [class.is-invalid]="apellidoInvalido">
         </div>
     </div>
+    <!-- telefono -->
     <div class="form-group row">
         <label class="col-2"> telefono 1:</label>
-        <div class="col">
+        <div class="col-8">
             <input  type="text"
                     class="form-control"
                     placeholder="telefono"
@@ -32,7 +36,7 @@
                     [class.is-invalid]="telefonoInvalido">
         </div>
     </div>
-
+    <!-- telefonos -->
     <div formArrayName="telefonos">
         <div class="form-group row" *ngFor="let telefono of telefonos.controls; let i=index">
             <label class="col-2"> telefono {{i+2}}:</label>
@@ -42,23 +46,92 @@
                         placeholder="telefonos"
                         [formControlName]="i"
                         [class.is-invalid]="telefonosInvalido(i)">
+                <small *ngIf="telefonosInvalido(i)" class="form-text text-danger"> 
+                    Telefono incorrecto!
+                </small> 
             </div>
-            <div class="col-2">
-                <button class="btn btn-danger btn-block" (click)=quitarDir(i)>
+            <div class="col-1">
+                <button class="btn btn-danger btn-block" (click)=quitarTel(i)>
                     <i class="far fa-trash-alt"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="col text-right m-3">
+    <div class="col-10 text-right m-3">
         <button class="btn btn-primary" (click)="agregaTelefono()" type="button">
-            + Agregar telefono
+            + <i class="fas fa-mobile-alt"></i>
         </button>
     </div>
 
+    <!-- Direccion -->
+    <div class="form-group row" formGroupName=direccion>
+        <label class="col-2"> Direccion 1:</label>
+        <div class="col-4">
+            <input  type="text"
+                    class="form-control"
+                    placeholder="Calle"
+                    formControlName="calle"
+                    [class.is-invalid]="calleInvalido">
+            <small *ngIf="calleInvalido" class="form-text text-danger"> 
+                Calle incorrecta!
+            </small> 
+        </div>
+        <div class="col-4" >
+            <input  type="text"
+                    class="form-control"
+                    placeholder="Distrito"
+                    formControlName="distrito"
+                    [class.is-invalid]="distritoInvalido">
+            <small *ngIf="distritoInvalido" class="form-text text-danger"> 
+                Distrito incorrecto!
+            </small> 
+        </div>
+    </div>
+    <!-- DIRECCIONES -->
+    <div formArrayName="direcciones">
+        <div *ngFor="let direccion of direcciones.controls; let i=index">
+            <div  class="form-group row"  formGroupName="{{i}}">
+                <label class="col-2"> Direccion {{i+2}}:</label>
+                <div class="col-4">
+                    <input  type="text"
+                            class="form-control"
+                            placeholder="Calle"
+                            formControlName="calle"
+                            [class.is-invalid]="callesInvalido(i)">
+                    <small *ngIf="callesInvalido(i)" class="form-text text-danger"> 
+                        Calle incorrecta!
+                    </small> 
+                </div>
+                <div class="col-4" >
+                    <input  type="text"
+                            class="form-control"
+                            placeholder="Distrito"
+                            formControlName="distrito"
+                            [class.is-invalid]="distritosInvalido(i)">
+                    <small *ngIf="distritosInvalido(i)" class="form-text text-danger"> 
+                        Distrito incorrecto!
+                    </small> 
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-danger btn-block" (click)=quitarDir(i)>
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-10 text-right m-3">
+        <button class="btn btn-primary" (click)="agregaDireccion()" type="button">
+            + <i class="fas fa-map-marker-alt"></i>
+        </button>
+    </div>
+
+    <!-- guardar -->
     <button type="submit" class=" btn btn-outline-primary btn-block">
-        Guardar
+        <i class="fas fa-save"></i> Guardar
     </button>
 </form>
 
