@@ -12,8 +12,8 @@ export class Reactive2Component implements OnInit {
     this.creaFormulario ()
   }
   
-  get direcciones(){
-    return this.forma.get("direcciones") as FormArray
+  get telefonos(){
+    return this.forma.get("telefonos") as FormArray
   }
   get nombreInvalido(){
     return this.forma.get("nombre").invalid &&  this.forma.get("nombre").touched
@@ -21,11 +21,11 @@ export class Reactive2Component implements OnInit {
   get apellidoInvalido(){
     return this.forma.get("apellido").invalid &&  this.forma.get("apellido").touched
   }
-  get direccionInvalido(){
-    return this.forma.get("direccion").invalid &&  this.forma.get("direccion").touched
+  get telefonoInvalido(){
+    return this.forma.get("telefono").invalid &&  this.forma.get("telefono").touched
   }
-  direccionesInvalido(i:number){
-    return this.direcciones.controls[i].invalid &&  this.direcciones.controls[i].touched
+  telefonosInvalido(i:number){
+    return this.telefonos.controls[i].invalid &&  this.telefonos.controls[i].touched
   }
 
   ngOnInit(): void {
@@ -34,15 +34,15 @@ export class Reactive2Component implements OnInit {
     this.forma = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellido : ['', [Validators.required, Validators.minLength(3)]],
-      direccion: ['', [Validators.required, Validators.minLength(3)]],
-      direcciones: this.fb.array([])
+      telefono: ['', [Validators.required, Validators.minLength(3)]],
+      telefonos: this.fb.array([])
     })
   }
-  agregaDirecciones(){
-    this.direcciones.push(this.fb.control([''],[Validators.required, Validators.minLength(3)]))
+  agregaTelefono(){
+    this.telefonos.push(this.fb.control([''],[Validators.required, Validators.minLength(3)]))
   }
   quitarDir(i:number){
-    this.direcciones.removeAt(i)
+    this.telefonos.removeAt(i)
   }
   guardar(){
     console.log(this.forma);
