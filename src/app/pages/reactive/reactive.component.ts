@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-reactive',
-  templateUrl: './reactive.component.html',
-  styleUrls: ['./reactive.component.css']
+  templateUrl: './reactive.component.html'
 })
 export class ReactiveComponent implements OnInit {
   forma:FormGroup

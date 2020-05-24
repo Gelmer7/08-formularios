@@ -7,12 +7,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TemplateComponent } from './pages/template/template.component';
 import { ReactiveComponent } from './pages/reactive/reactive.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { Reactive2Component } from './pages/reactive2/reactive2.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TemplateComponent,
-    ReactiveComponent
+    ReactiveComponent,
+    NavbarComponent,
+    Reactive2Component
   ],
   imports: [
     BrowserModule,
